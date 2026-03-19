@@ -3,6 +3,13 @@ from parameters import INTERVIEW_PARAMETERS
 from core.manager import InterviewManager
 from core.agent import LLMAgent
 from core.providers import get_provider
+from core.svg_generator import dag_to_svg
+
+DAG_VALIDATION_QUESTION = (
+    "Passt dieser Graph genau zu Ihrem mentalen Bild? "
+    "Bitte antworten Sie mit Ja oder Nein. "
+    "Falls Nein, können Sie kurz erklären, was nicht stimmt."
+)
 
 
 def connect_to_database():
@@ -91,6 +98,23 @@ def next_question(session_id: str, interview_id: str, user_message: str = None) 
     if interview.is_terminated():
         return {'session_id': session_id, 'message': parameters['termination_message']}
 
+    # Handle DAG validation feedback (sentinel-prefixed messages from frontend)
+    if interview.is_awaiting_dag_feedback():
+        msg = user_message or ''
+        if msg.startswith('__DAG_ACCEPTED__'):
+            interview.resolve_dag_feedback(accepted=True)
+        elif msg.startswith('__DAG_REJECTED__::'):
+            correction = msg[len('__DAG_REJECTED__::'):]
+            interview.resolve_dag_feedback(accepted=False, correction=correction)
+        else:
+            # Still waiting — re-ask validation question
+            interview.update_session()
+            return {'session_id': session_id, 'message': DAG_VALIDATION_QUESTION}
+
+        pending_question = interview.consume_pending_question()
+        interview.add_chat_to_session(pending_question, type='question')
+        return {'session_id': session_id, 'message': pending_question}
+
     # Provide interview guidelines to LLM agent
     agent.load_parameters(parameters)
 
@@ -145,15 +169,29 @@ def next_question(session_id: str, interview_id: str, user_message: str = None) 
     elif on_last_question:
         # Extract causal DAG for the completed topic if configured
         dag = {}
+        dag_svg = ''
         if parameters.get('dag'):
             current_topic = parameters['interview_plan'][current_topic_idx - 1]['topic']
             dag = agent.extract_dag(
                 current_topic, current_topic_idx, interview.get_history())
-            interview.add_topic_dag(dag, current_topic)
+            dag_svg = dag_to_svg(dag)
+            interview.add_topic_dag(dag, current_topic, svg=dag_svg)
         # Transition to *next* topic...
-        next_question, summary = agent.transition_topic(
-            interview.get_history())
+        transition_q, summary = agent.transition_topic(interview.get_history())
         interview.update_transition(summary)
+
+        # If DAG was extracted, pause for user validation before continuing
+        if dag and dag_svg:
+            interview.set_dag_pending(transition_q)
+            interview.add_chat_to_session(DAG_VALIDATION_QUESTION, type='question')
+            return {
+                'session_id': session_id,
+                'message': DAG_VALIDATION_QUESTION,
+                'dag_svg': dag_svg,
+                'dag': dag,
+            }
+
+        next_question = transition_q
 
     else:
         # Proceed *within* topic...
@@ -173,7 +211,4 @@ def next_question(session_id: str, interview_id: str, user_message: str = None) 
             interview.update_session()
             return {'session_id': session_id, 'message': parameters['end_of_interview_message']}
 
-    response = {'session_id': session_id, 'message': next_question}
-    if dag:
-        response['dag'] = dag
-    return response
+    return {'session_id': session_id, 'message': next_question}
