@@ -285,8 +285,8 @@ INTERVIEW_PARAMETERS = {
         "_name": "HOMELESS_BERLIN",
         "_description": "Interview about perceptions of homelessness in Berlin: causes, persistence, and potential solutions.",
         # OPTIONAL FEATURES:
-        "moderate_answers": True,
-        "moderate_questions": True,
+        "moderate_answers": False,
+        "moderate_questions": False,
         "summarize": True,
         "max_flags_allowed": 3,
         # INTERVIEW STRUCTURE:
@@ -294,15 +294,15 @@ INTERVIEW_PARAMETERS = {
         "interview_plan": [
             {
                         "topic": "Explore the reasons behind the interviewee's reasoning about becoming and staying homeless.",
-                        "length": 6
+                        "length": 2
             },
             {
                 "topic": "Explore the interviewee's views on structural and systemic barriers that prevent people from leaving homelessness (e.g. housing markets, social services, stigma, mental health, addiction).",
-                "length": 5
+                "length": 2
             },
             {
                 "topic": "Explore potential solutions, support systems, or policy changes the interviewee believes could reduce or prevent homelessness in Berlin.",
-                "length": 3
+               "length": 2
             }
         ],
         "closing_questions": [

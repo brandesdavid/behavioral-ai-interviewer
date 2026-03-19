@@ -44,6 +44,17 @@ stop:
 logs:
     docker compose logs -f
 
+# ── Gemini latency test ──────────────────────────────────────────────────────
+
+# test raw Gemini API latency with a minimal call
+test-gemini:
+    @echo "Testing Gemini API latency..."
+    @time curl -s -o /dev/null \
+      -H "Content-Type: application/json" \
+      -d '{"contents":[{"parts":[{"text":"Say hello."}]}],"generationConfig":{"maxOutputTokens":10}}' \
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_API_KEY}"
+    @echo "\nDone."
+
 # ── Health checks ────────────────────────────────────────────────────────────
 
 # check if the server is running

@@ -32,3 +32,5 @@ wheels/
 *.csv
 data/
 .aws-sam/
+
+venv/

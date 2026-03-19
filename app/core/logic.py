@@ -1,4 +1,5 @@
 import logging
+import time
 from parameters import INTERVIEW_PARAMETERS
 from core.manager import InterviewManager
 from core.agent import LLMAgent
@@ -118,9 +119,13 @@ def next_question(session_id: str, interview_id: str, user_message: str = None) 
     # Provide interview guidelines to LLM agent
     agent.load_parameters(parameters)
 
+    t0 = time.time()
+    logging.info(f"[{session_id}] request received — topic {interview.get_current_topic()}, question {interview.get_current_topic_question()}")
+
     # Optional: Moderate interviewee responses, e.g. flagging off-topic or harmful messages
     if parameters.get('moderate_answers') and parameters.get('moderator'):
         on_topic = agent.review_answer(user_message, interview.get_history())
+        logging.info(f"[{session_id}] moderation done ({time.time()-t0:.2f}s)")
         if not on_topic:
             interview.flag_risk(user_message)
 
@@ -172,12 +177,14 @@ def next_question(session_id: str, interview_id: str, user_message: str = None) 
         dag_svg = ''
         if parameters.get('dag'):
             current_topic = parameters['interview_plan'][current_topic_idx - 1]['topic']
-            dag = agent.extract_dag(
-                current_topic, current_topic_idx, interview.get_history())
+            logging.info(f"[{session_id}] extracting DAG for topic '{current_topic}'...")
+            dag = agent.extract_dag(current_topic, current_topic_idx, interview.get_history())
+            logging.info(f"[{session_id}] DAG done ({time.time()-t0:.2f}s)")
             dag_svg = dag_to_svg(dag)
             interview.add_topic_dag(dag, current_topic, svg=dag_svg)
-        # Transition to *next* topic...
+        logging.info(f"[{session_id}] transitioning topic...")
         transition_q, summary = agent.transition_topic(interview.get_history())
+        logging.info(f"[{session_id}] transition done ({time.time()-t0:.2f}s)")
         interview.update_transition(summary)
 
         # If DAG was extracted, pause for user validation before continuing
@@ -196,11 +203,14 @@ def next_question(session_id: str, interview_id: str, user_message: str = None) 
     else:
         # Proceed *within* topic...
         dag = {}
+        logging.info(f"[{session_id}] probing within topic...")
         next_question = agent.probe_within_topic(interview.get_history())
+        logging.info(f"[{session_id}] probe done ({time.time()-t0:.2f}s)")
         interview.update_probe()
 
     # Update interview with new output
-    logging.info(f"Interviewer responded: '{next_question}'")
+    logging.info(f"[{session_id}] total request time: {time.time()-t0:.2f}s")
+    logging.info(f"[{session_id}] response: '{next_question}'")
     interview.add_chat_to_session(next_question, type="question")
 
     # Optional: Check if next question is flagged by OpenAI's moderation endpoint

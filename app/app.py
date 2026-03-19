@@ -7,9 +7,11 @@ from flask import (
     render_template,
     make_response
 )
+from flask_cors import CORS
 from core import decorators, logic
 
 app = Flask(__name__)
+CORS(app)
 app.error_handler_spec[None] = decorators.wrap_flask_errors()
 app.add_url_rule('/healthcheck', 'healthcheck', lambda: ('', 200))
 
@@ -20,7 +22,7 @@ def index():
     return 'Running!'
 
 
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['OPTIONS', 'POST'])
 @decorators.handle_500
 def dispatch():
     """Dispatcher endpoint for Qualtrics integration.

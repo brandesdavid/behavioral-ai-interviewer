@@ -7,7 +7,7 @@ import logging
 import os
 import json
 
-LOG_LEVEL = os.getenv("LOG_LEVEL", "ERROR")
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 logging.basicConfig(
     level=getattr(logging, LOG_LEVEL),
     format="%(asctime)s %(name)-20s %(levelname)-8s %(message)s",

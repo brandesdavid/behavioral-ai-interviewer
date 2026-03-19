@@ -14,9 +14,9 @@ def chat_to_string(chat: list, only_topic: int = None, until_topic: int = None) 
         if until_topic and message['topic_idx'] == until_topic:
             break
         if message["type"] == "question":
-            topic_history += f'Interviewer: "{message['content']}"\n'
+            topic_history += 'Interviewer: "{}"\n'.format(message['content'])
         if message["type"] == "answer":
-            topic_history += f'Interviewee: "{message['content']}"\n'
+            topic_history += 'Interviewee: "{}"\n'.format(message['content'])
     return topic_history.strip()
 
 
@@ -43,7 +43,8 @@ def fill_prompt_with_interview(template: str, topics: list, history: list, user_
 
 def execute_queries(provider, task_args: dict) -> dict:
     """
-    Execute completion queries concurrently via the given provider.
+    Execute completion queries via the given provider.
+    Single tasks run directly; multiple tasks run concurrently.
 
     Args:
         provider: a BaseProvider instance
@@ -53,21 +54,32 @@ def execute_queries(provider, task_args: dict) -> dict:
     """
     st = time.time()
     suggestions = {}
-    with ThreadPoolExecutor(max_workers=len(task_args)) as executor:
-        futures = {
-            executor.submit(
-                provider.complete,
-                messages=kwargs["messages"],
-                model=kwargs["model"],
-                max_tokens=kwargs["max_tokens"],
-                temperature=kwargs["temperature"],
-            ): task
-            for task, kwargs in task_args.items()
-        }
-        for future in as_completed(futures):
-            task = futures[future]
-            suggestions[task] = future.result()
+
+    if len(task_args) == 1:
+        # No threading overhead for single tasks
+        task, kwargs = next(iter(task_args.items()))
+        logging.info(f"LLM call: task='{task}' model='{kwargs['model']}'")
+        suggestions[task] = provider.complete(
+            messages=kwargs["messages"],
+            model=kwargs["model"],
+            max_tokens=kwargs["max_tokens"],
+            temperature=kwargs["temperature"],
+        )
+    else:
+        with ThreadPoolExecutor(max_workers=len(task_args)) as executor:
+            futures = {
+                executor.submit(
+                    provider.complete,
+                    messages=kwargs["messages"],
+                    model=kwargs["model"],
+                    max_tokens=kwargs["max_tokens"],
+                    temperature=kwargs["temperature"],
+                ): task
+                for task, kwargs in task_args.items()
+            }
+            for future in as_completed(futures):
+                task = futures[future]
+                suggestions[task] = future.result()
 
     logging.info("LLM query took {:.2f} seconds".format(time.time() - st))
-    logging.info(f"LLM query returned: {suggestions}")
     return suggestions

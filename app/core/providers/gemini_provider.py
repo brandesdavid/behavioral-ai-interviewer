@@ -40,12 +40,17 @@ class GeminiProvider(BaseProvider):
         return system, contents
 
     def complete(self, messages: list, model: str, max_tokens: int, temperature: float) -> str:
+        import time
         system, contents = self._split_messages(messages)
+        prompt_chars = sum(len(m["content"]) for m in messages)
+        logging.info(f"Gemini complete: model={model} prompt_chars={prompt_chars}")
+        t0 = time.time()
         response = self.client.models.generate_content(
             model=model,
             contents=contents,
             config=self._build_config(max_tokens, temperature, system),
         )
+        logging.info(f"Gemini complete done in {time.time()-t0:.2f}s")
         return response.text.strip()
 
     def complete_json(self, messages: list, model: str, max_tokens: int, temperature: float) -> dict:

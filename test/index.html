@@ -328,14 +328,27 @@ const INTERVIEW_ID = 'HOMELESS_BERLIN';
 
 function liveApiCall(userMessage) {
   const endpoint = document.getElementById('endpointInput').value.trim();
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 60000); // 60s timeout
   return fetch(endpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       route: 'next',
       payload: { user_message: userMessage, session_id: USER_ID, interview_id: INTERVIEW_ID }
-    })
-  }).then(r => r.json());
+    }),
+    signal: controller.signal
+  }).then(r => {
+    clearTimeout(timeout);
+    if (!r.ok) {
+      return r.text().then(text => { throw new Error(`HTTP ${r.status}: ${text.slice(0, 200)}`); });
+    }
+    return r.json();
+  }).catch(err => {
+    clearTimeout(timeout);
+    console.error('[API]', err);
+    throw err;
+  });
 }
 
 function apiCall(userMessage) {
