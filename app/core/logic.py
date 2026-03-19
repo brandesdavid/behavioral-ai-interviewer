@@ -7,9 +7,9 @@ from core.providers import get_provider
 from core.svg_generator import dag_to_svg
 
 DAG_VALIDATION_QUESTION = (
-    "Passt dieser Graph genau zu Ihrem mentalen Bild? "
-    "Bitte antworten Sie mit Ja oder Nein. "
-    "Falls Nein, können Sie kurz erklären, was nicht stimmt."
+    "Does this graph match your mental model of the topic? "
+    "Please answer Yes or No. "
+    "If No, you can briefly explain what is incorrect."
 )
 
 

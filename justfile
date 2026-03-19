@@ -79,6 +79,17 @@ test-ui:
 
 # ── Data ─────────────────────────────────────────────────────────────────────
 
+# fetch all sessions from production and save as JSON
+fetch-remote host="https://qualtrics.amatsu.me" output="remote_data.json":
+    curl -s "{{host}}/retrieve" | python3 -m json.tool > {{output}}
+    @echo "Saved to {{output}}"
+
+# fetch + export directly to CSV
+export-remote host="https://qualtrics.amatsu.me" output="remote_data.csv":
+    curl -s "{{host}}/retrieve" > /tmp/_remote_sessions.json
+    python3 retrieve.py --from_json=/tmp/_remote_sessions.json --output_path={{output}}
+    @echo "Exported to {{output}}"
+
 # export all sessions to CSV
 export output="data.csv":
     python retrieve.py --data_dir=app/data --output_path={{output}}

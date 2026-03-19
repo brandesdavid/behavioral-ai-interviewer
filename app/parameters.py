@@ -293,8 +293,8 @@ INTERVIEW_PARAMETERS = {
         "first_question": "I am interested in learning more about what you think about homelessness in Berlin. Can you help me understand what you think are the main factors or reasons why people become homeless and what keeps them homeless?",
         "interview_plan": [
             {
-                        "topic": "Explore the reasons behind the interviewee's reasoning about becoming and staying homeless.",
-                        "length": 2
+                "topic": "Explore the reasons behind the interviewee's reasoning about becoming and staying homeless.",
+                "length": 2
             },
             {
                 "topic": "Explore the interviewee's views on structural and systemic barriers that prevent people from leaving homelessness (e.g. housing markets, social services, stigma, mental health, addiction).",

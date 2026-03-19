@@ -213,14 +213,14 @@ const DEMO_SVG = `<svg width="576" height="208" xmlns="http://www.w3.org/2000/sv
 
 const DEMO_SCRIPT = [
   // step 0: initial load (user_message == "")
-  { message: "Ich bin daran interessiert, mehr darüber zu erfahren, was Sie über Obdachlosigkeit in Berlin denken. Können Sie mir erklären, was Ihrer Meinung nach die Hauptfaktoren oder Gründe sind, warum Menschen obdachlos werden und obdachlos bleiben?" },
+  { message: "I am interested in learning more about what you think about homelessness in Berlin. Can you help me understand what you think are the main factors or reasons why people become homeless and what keeps them homeless?" },
   // step 1
   { message: "Das ist interessant. Können Sie mir mehr darüber erzählen, welche Rolle hohe Mietpreise dabei spielen?" },
   // step 2
-  { message: "Inwiefern beeinflusst fehlende staatliche Unterstützung Ihrer Meinung nach die Situation?" },
+  { message: "To what extent do you think a lack of government support influences the situation?" },
   // step 3: DAG transition
   {
-    message: "Passt dieser Graph genau zu Ihrem mentalen Bild? Bitte antworten Sie mit Ja oder Nein. Falls Nein, können Sie kurz erklären, was nicht stimmt.",
+    message: "Does this graph match your mental model of the topic? Please answer Yes or No. If No, you can briefly explain what is incorrect.",
     dag_svg: DEMO_SVG,
     dag: {
       nodes: [
@@ -426,10 +426,10 @@ function showDagValidation(dagSvg, question) {
   const row = document.createElement('div');
   row.style.cssText = "display:flex; gap:10px; margin-bottom:10px;";
   const yesBtn = document.createElement('button');
-  yesBtn.innerText = 'Ja';
+  yesBtn.innerText = 'Yes';
   yesBtn.style.cssText = "padding:8px 28px; font-size:16px; background:#2563a8; color:white; border:none; border-radius:5px; cursor:pointer;";
   const noBtn = document.createElement('button');
-  noBtn.innerText = 'Nein';
+  noBtn.innerText = 'No';
   noBtn.style.cssText = "padding:8px 28px; font-size:16px; background:#e5e7eb; color:#1e3a5f; border:none; border-radius:5px; cursor:pointer;";
   row.appendChild(yesBtn); row.appendChild(noBtn);
   wrap.appendChild(row);
@@ -438,21 +438,21 @@ function showDagValidation(dagSvg, question) {
   const corrArea = document.createElement('div');
   corrArea.style.display = 'none';
   corrArea.innerHTML = `
-    <textarea id="dagCorrText" placeholder="Bitte beschreiben Sie kurz, was nicht stimmt..."
+    <textarea id="dagCorrText" placeholder="Please briefly describe what is incorrect..."
       style="width:100%;height:80px;font-size:16px;border:1px solid #ccc;border-radius:5px;padding:6px;box-sizing:border-box;resize:vertical;"></textarea>
-    <button id="dagCorrSubmit" style="margin-top:6px;padding:8px 20px;font-size:16px;background:#2563a8;color:white;border:none;border-radius:5px;cursor:pointer;">Absenden</button>
+    <button id="dagCorrSubmit" style="margin-top:6px;padding:8px 20px;font-size:16px;background:#2563a8;color:white;border:none;border-radius:5px;cursor:pointer;">Submit</button>
   `;
   wrap.appendChild(corrArea);
   chatArea.appendChild(wrap);
   chatArea.scrollTop = chatArea.scrollHeight;
 
-  yesBtn.addEventListener('click', () => { wrap.remove(); sendDagFeedback('__DAG_ACCEPTED__', 'Ja'); });
+  yesBtn.addEventListener('click', () => { wrap.remove(); sendDagFeedback('__DAG_ACCEPTED__', 'Yes'); });
   noBtn.addEventListener('click', () => { corrArea.style.display = 'block'; yesBtn.disabled = true; noBtn.disabled = true; chatArea.scrollTop = chatArea.scrollHeight; });
   corrArea.querySelector('#dagCorrSubmit').addEventListener('click', () => {
     const txt = corrArea.querySelector('#dagCorrText').value.trim();
     if (!txt) return;
     wrap.remove();
-    sendDagFeedback('__DAG_REJECTED__::' + txt, 'Nein – ' + txt);
+    sendDagFeedback('__DAG_REJECTED__::' + txt, 'No – ' + txt);
   });
 }
 
@@ -494,7 +494,7 @@ function handleResponse(data) {
 
 function handleError(err) {
   console.error(err);
-  appendChatbotMessage('Fehler beim Laden. Bitte erneut versuchen.', 'response');
+  appendChatbotMessage('There was an error. Please try again.', 'response');
   restoreInput();
 }
 

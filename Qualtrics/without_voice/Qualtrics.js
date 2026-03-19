@@ -81,11 +81,11 @@ Qualtrics.SurveyEngine.addOnload(function () {
         btnRow.style.cssText = "display: flex; gap: 10px; margin-bottom: 10px;";
 
         var yesBtn = document.createElement('button');
-        yesBtn.innerText = "Ja";
+        yesBtn.innerText = "Yes";
         yesBtn.style.cssText = "padding: 8px 28px; font-size: 16px; background: #2563a8; color: white; border: none; border-radius: 5px; cursor: pointer;";
 
         var noBtn = document.createElement('button');
-        noBtn.innerText = "Nein";
+        noBtn.innerText = "No";
         noBtn.style.cssText = "padding: 8px 28px; font-size: 16px; background: #e5e7eb; color: #1e3a5f; border: none; border-radius: 5px; cursor: pointer;";
 
         btnRow.appendChild(yesBtn);
@@ -96,9 +96,9 @@ Qualtrics.SurveyEngine.addOnload(function () {
         var correctionArea = document.createElement('div');
         correctionArea.style.cssText = "display: none;";
         correctionArea.innerHTML = `
-            <textarea id="dagCorrectionText" placeholder="Bitte beschreiben Sie kurz, was nicht stimmt..."
+            <textarea id="dagCorrectionText" placeholder="Please briefly describe what is incorrect..."
                 style="width:100%; height:80px; font-size:16px; border:1px solid #ccc; border-radius:5px; padding:6px; box-sizing:border-box; resize:vertical;"></textarea>
-            <button id="dagCorrectionSubmit" style="margin-top:6px; padding:8px 20px; font-size:16px; background:#2563a8; color:white; border:none; border-radius:5px; cursor:pointer;">Absenden</button>
+            <button id="dagCorrectionSubmit" style="margin-top:6px; padding:8px 20px; font-size:16px; background:#2563a8; color:white; border:none; border-radius:5px; cursor:pointer;">Submit</button>
         `;
         dagContainer.appendChild(correctionArea);
 
@@ -108,7 +108,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
         // Yes handler
         yesBtn.addEventListener('click', function () {
             dagContainer.remove();
-            sendDagFeedback('__DAG_ACCEPTED__', 'Ja');
+            sendDagFeedback('__DAG_ACCEPTED__', 'Yes');
         });
 
         // No handler — show correction box
@@ -124,7 +124,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
             var correctionText = correctionArea.querySelector('#dagCorrectionText').value.trim();
             if (!correctionText) return;
             dagContainer.remove();
-            sendDagFeedback('__DAG_REJECTED__::' + correctionText, 'Nein – ' + correctionText);
+            sendDagFeedback('__DAG_REJECTED__::' + correctionText, 'No – ' + correctionText);
         });
     }
 
@@ -157,7 +157,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error("Error:", errorThrown);
-                appendChatbotMessage("Es gab einen technischen Fehler. Bitte versuchen Sie es erneut.", chatArea, "response");
+                appendChatbotMessage("There was a technical error. Please try again.", chatArea, "response");
                 restoreInput();
             }
         });

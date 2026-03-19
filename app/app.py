@@ -9,6 +9,7 @@ from flask import (
 )
 from flask_cors import CORS
 from core import decorators, logic
+from parameters import INTERVIEW_PARAMETERS
 
 app = Flask(__name__)
 CORS(app)
@@ -48,6 +49,8 @@ def dispatch():
 @app.route('/<interview_id>/<session_id>', methods=['GET'])
 @decorators.handle_500
 def landing(interview_id: str, session_id: str):
+    if interview_id not in INTERVIEW_PARAMETERS:
+        return make_response('Not found', 404)
     """Endpoint: /<interview_id>/<session_id> (GET)
     ----------------------------------
     Description:
