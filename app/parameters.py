@@ -165,7 +165,7 @@ INTERVIEW_PARAMETERS = {
         # PROMPTS FOR THE AI AGENTS:
         "summary": {  # for the summary agent
             "model": "gpt-4o",
-            "model_gemini": "gemini-2.0-flash",
+            "model_gemini": "gemini-2.5-flash-lite",
             "prompt": """
 				CONTEXT: You're an AI proficient in summarizing qualitative interviews for academic research. You're overseeing the records of a semi-structured qualitative interview about the interviewee's reasons for not investing in the stock market.
 
@@ -199,7 +199,7 @@ INTERVIEW_PARAMETERS = {
         },
         "transition": {  # for the transition agent
             "model": "gpt-4o",
-            "model_gemini": "gemini-2.0-flash",
+            "model_gemini": "gemini-2.5-flash-lite",
             "prompt": """
 				CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You're guiding a semi-structured qualitative interview about the interviewee's reasons for not investing in the stock market.
 
@@ -228,7 +228,7 @@ INTERVIEW_PARAMETERS = {
         },
         "probe": {  # for the probing agent
             "model": "gpt-4o",
-            "model_gemini": "gemini-2.0-flash",
+            "model_gemini": "gemini-2.5-flash-lite",
             "prompt": """
 				CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You conduct a qualitative interview with the goal of learning the interviewee's reasons for not investing in the stock market.
 
@@ -264,7 +264,7 @@ INTERVIEW_PARAMETERS = {
         },
         "moderator": {  # for the moderator agent
             "model": "gpt-4o-mini",
-            "model_gemini": "gemini-2.0-flash-lite",
+            "model_gemini": "gemini-2.5-flash-lite",
             "prompt": """
 				You are monitoring a conversation that is part of an in-depth interview. The interviewer asks questions and the interviewee replies. The interview should stay on topic. The interviewee should try to respond to the question of the interviewer (but it is not important to answer all questions that are asked), express a wish to move on, or decline to respond. The interviewee is also allowed to say that they don't know, do not understand the question, or express uncertainty. Responses can be very short, as long as they have some connection with the question. The interviewee's response might contain spelling and grammar mistakes. Here is the last part of the conversation.
 
@@ -317,7 +317,7 @@ INTERVIEW_PARAMETERS = {
         # PROMPTS FOR THE AI AGENTS:
         "summary": {
             "model": "gpt-4o",
-            "model_gemini": "gemini-2.0-flash",
+            "model_gemini": "gemini-2.5-flash-lite",
             "prompt": """
 				CONTEXT: You're an AI proficient in summarizing qualitative interviews for academic research. You're overseeing the records of a semi-structured qualitative interview about the interviewee's views on homelessness in Berlin.
 
@@ -350,7 +350,7 @@ INTERVIEW_PARAMETERS = {
         },
         "transition": {
             "model": "gpt-4o",
-            "model_gemini": "gemini-2.0-flash",
+            "model_gemini": "gemini-2.5-flash-lite",
             "prompt": """
 				CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You're guiding a semi-structured qualitative interview about the interviewee's views on homelessness in Berlin.
 
@@ -379,7 +379,7 @@ INTERVIEW_PARAMETERS = {
         },
         "probe": {
             "model": "gpt-4o",
-            "model_gemini": "gemini-2.0-flash",
+            "model_gemini": "gemini-2.5-flash-lite",
             "prompt": """
 				CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You conduct a qualitative interview to learn the interviewee's views on homelessness in Berlin.
 
@@ -415,7 +415,7 @@ INTERVIEW_PARAMETERS = {
         },
         "moderator": {
             "model": "gpt-4o-mini",
-            "model_gemini": "gemini-2.0-flash-lite",
+            "model_gemini": "gemini-2.5-flash-lite",
             "prompt": """
 				You are monitoring a conversation that is part of an in-depth interview about homelessness in Berlin. The interviewer asks questions and the interviewee replies. The interview should stay on topic. The interviewee should try to respond to the question of the interviewer (but it is not important to answer all questions that are asked), express a wish to move on, or decline to respond. The interviewee is also allowed to say that they don't know, do not understand the question, or express uncertainty. Responses can be very short, as long as they have some connection with the question. The interviewee's response might contain spelling and grammar mistakes. Here is the last part of the conversation.
 
@@ -432,7 +432,7 @@ INTERVIEW_PARAMETERS = {
         },
         "dag": {
             "model": "gpt-4o",
-            "model_gemini": "gemini-2.0-flash",
+            "model_gemini": "gemini-2.5-flash-lite",
             "max_tokens": 1000
         }
     },

@@ -29,7 +29,7 @@ Enable DAG extraction by adding a `"dag"` key to your interview config in `app/p
 ```python
 "dag": {
     "model": "gpt-4o",
-    "model_gemini": "gemini-2.0-flash",
+    "model_gemini": "gemini-2.5-flash-lite",
     "max_tokens": 1000
 }
 ```
@@ -67,10 +67,57 @@ Opening question:
 
 ---
 
+## Environment Variables
+
+All configuration is done via environment variables (or a `.env` file for Docker).
+
+### API Keys & Provider
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `LLM_PROVIDER` | `openai` | LLM backend: `openai` or `gemini` |
+| `OPENAI_API_KEY` | — | Required when `LLM_PROVIDER=openai` |
+| `GEMINI_API_KEY` | — | Required when `LLM_PROVIDER=gemini` |
+
+### App Behaviour
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `LOG_LEVEL` | `ERROR` | Python log level: `DEBUG`, `INFO`, `WARNING`, `ERROR` |
+| `DATA_DIR` | `./app/data` | Directory where session JSON files are stored |
+| `PORT` | `8000` | Host port (Docker only, via `docker-compose.yml`) |
+
+---
+
+## Interview Configuration (`app/parameters.py`)
+
+Each interview config supports optional feature flags you can toggle without changing any code — just set them to `True` or `False`:
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `moderate_answers` | bool | `True` | Run the **moderator agent** on each interviewee answer — flags off-topic or harmful input |
+| `moderate_questions` | bool | `True` | Check AI-generated questions against OpenAI's moderation endpoint before sending them *(OpenAI only)* |
+| `summarize` | bool | `True` | Run the **summary agent** at each topic transition to maintain a running summary — reduces token usage in long interviews |
+| `max_flags_allowed` | int | `3` | How many flagged answers are allowed before the interview is terminated |
+| `dag` | dict / absent | absent | Add this key to enable **DAG extraction** at topic transitions (see below). Remove the key entirely to disable it |
+
+### Turning agents off to save costs
+
+```python
+"HOMELESS_BERLIN": {
+    "moderate_answers": False,   # skip moderation agent
+    "moderate_questions": False, # skip moderation endpoint
+    "summarize": False,          # skip summary agent (saves tokens on long interviews)
+    "dag": { ... },              # remove this key entirely to disable DAG extraction
+    ...
+}
+```
+
+> **Note:** `moderate_questions` calls the OpenAI moderation endpoint and has no effect when `LLM_PROVIDER=gemini` (Gemini applies safety filters at the API level).
+
+---
+
 ## Setup
-
-The application requires an OpenAI or Gemini API key. Set it via environment variable or edit `app/parameters.py` directly.
-
 
 ## Option 1: Local development (without Docker)
 

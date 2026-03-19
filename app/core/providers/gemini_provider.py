@@ -60,7 +60,7 @@ class GeminiProvider(BaseProvider):
     def transcribe(self, audio: str) -> str:
         audio_bytes = b64decode(audio)
         response = self.client.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-2.5-flash-lite",
             contents=[types.Content(parts=[
                 types.Part(inline_data=types.Blob(mime_type="audio/webm", data=audio_bytes)),
                 types.Part(text="Transcribe the audio. Return only the transcription text, nothing else."),
