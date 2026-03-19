@@ -41,28 +41,33 @@ def fill_prompt_with_interview(template: str, topics: list, history: list, user_
     return prompt
 
 
-def execute_queries(query, task_args: dict) -> dict:
-    """ 
-    Execute queries (concurrently if multiple).
+def execute_queries(provider, task_args: dict) -> dict:
+    """
+    Execute completion queries concurrently via the given provider.
 
     Args:
-        query: function to execute
-        task_args: (dict) of arguments for each task's query
+        provider: a BaseProvider instance
+        task_args: dict of {task_name: {messages, model, max_tokens, temperature}}
     Returns:
-        suggestions (dict): {task: output} 
+        dict of {task_name: response_text}
     """
     st = time.time()
     suggestions = {}
     with ThreadPoolExecutor(max_workers=len(task_args)) as executor:
         futures = {
-            executor.submit(query, **kwargs): task
+            executor.submit(
+                provider.complete,
+                messages=kwargs["messages"],
+                model=kwargs["model"],
+                max_tokens=kwargs["max_tokens"],
+                temperature=kwargs["temperature"],
+            ): task
             for task, kwargs in task_args.items()
         }
         for future in as_completed(futures):
             task = futures[future]
-            resp = future.result().choices[0].message.content.strip("\n\" '''")
-            suggestions[task] = resp
+            suggestions[task] = future.result()
 
-    logging.info("OpenAI query took {:.2f} seconds".format(time.time() - st))
-    logging.info(f"OpenAI query returned: {suggestions}")
+    logging.info("LLM query took {:.2f} seconds".format(time.time() - st))
+    logging.info(f"LLM query returned: {suggestions}")
     return suggestions

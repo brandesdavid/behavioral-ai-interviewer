@@ -119,9 +119,8 @@ import os
 
 # Either export environment variable OPENAI_API_KEY or modify the line below
 # directly, e.g. by changing it to `OPENAI_API_KEY = "MY_OPENAI_API_KEY"`
-OPENAI_API_KEY = os.getenv(
-    "OPENAI_API_KEY",
-    "ADD_YOUR_OPENAI_API_KEY_HERE_AS_A_STRING_VARIABLE")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "ADD_YOUR_OPENAI_API_KEY_HERE")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "ADD_YOUR_GEMINI_API_KEY_HERE")
 
 
 INTERVIEW_PARAMETERS = {
@@ -165,6 +164,8 @@ INTERVIEW_PARAMETERS = {
         "end_of_interview_message": "Thank you for sharing your insights and experiences today. Your input is invaluable to our research. Please proceed to the next page.---END---",
         # PROMPTS FOR THE AI AGENTS:
         "summary": {  # for the summary agent
+            "model": "gpt-4o",
+            "model_gemini": "gemini-2.0-flash",
             "prompt": """
 				CONTEXT: You're an AI proficient in summarizing qualitative interviews for academic research. You're overseeing the records of a semi-structured qualitative interview about the interviewee's reasons for not investing in the stock market.
 
@@ -197,6 +198,8 @@ INTERVIEW_PARAMETERS = {
             "model": "gpt-4o"
         },
         "transition": {  # for the transition agent
+            "model": "gpt-4o",
+            "model_gemini": "gemini-2.0-flash",
             "prompt": """
 				CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You're guiding a semi-structured qualitative interview about the interviewee's reasons for not investing in the stock market.
 
@@ -224,7 +227,9 @@ INTERVIEW_PARAMETERS = {
             "max_tokens": 300
         },
         "probe": {  # for the probing agent
-                    "prompt": """
+            "model": "gpt-4o",
+            "model_gemini": "gemini-2.0-flash",
+            "prompt": """
 				CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You conduct a qualitative interview with the goal of learning the interviewee's reasons for not investing in the stock market.
 
 				INPUTS:
@@ -258,6 +263,8 @@ INTERVIEW_PARAMETERS = {
                     "max_tokens": 300
         },
         "moderator": {  # for the moderator agent
+            "model": "gpt-4o-mini",
+            "model_gemini": "gemini-2.0-flash-lite",
             "prompt": """
 				You are monitoring a conversation that is part of an in-depth interview. The interviewer asks questions and the interviewee replies. The interview should stay on topic. The interviewee should try to respond to the question of the interviewer (but it is not important to answer all questions that are asked), express a wish to move on, or decline to respond. The interviewee is also allowed to say that they don't know, do not understand the question, or express uncertainty. Responses can be very short, as long as they have some connection with the question. The interviewee's response might contain spelling and grammar mistakes. Here is the last part of the conversation.
 
@@ -309,6 +316,8 @@ INTERVIEW_PARAMETERS = {
         "end_of_interview_message": "Thank you for sharing your insights and perspectives today. Your input is invaluable to our research. Please proceed to the next page.---END---",
         # PROMPTS FOR THE AI AGENTS:
         "summary": {
+            "model": "gpt-4o",
+            "model_gemini": "gemini-2.0-flash",
             "prompt": """
 				CONTEXT: You're an AI proficient in summarizing qualitative interviews for academic research. You're overseeing the records of a semi-structured qualitative interview about the interviewee's views on homelessness in Berlin.
 
@@ -340,6 +349,8 @@ INTERVIEW_PARAMETERS = {
             "model": "gpt-4o"
         },
         "transition": {
+            "model": "gpt-4o",
+            "model_gemini": "gemini-2.0-flash",
             "prompt": """
 				CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You're guiding a semi-structured qualitative interview about the interviewee's views on homelessness in Berlin.
 
@@ -367,6 +378,8 @@ INTERVIEW_PARAMETERS = {
             "max_tokens": 300
         },
         "probe": {
+            "model": "gpt-4o",
+            "model_gemini": "gemini-2.0-flash",
             "prompt": """
 				CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You conduct a qualitative interview to learn the interviewee's views on homelessness in Berlin.
 
@@ -401,6 +414,8 @@ INTERVIEW_PARAMETERS = {
             "max_tokens": 300
         },
         "moderator": {
+            "model": "gpt-4o-mini",
+            "model_gemini": "gemini-2.0-flash-lite",
             "prompt": """
 				You are monitoring a conversation that is part of an in-depth interview about homelessness in Berlin. The interviewer asks questions and the interviewee replies. The interview should stay on topic. The interviewee should try to respond to the question of the interviewer (but it is not important to answer all questions that are asked), express a wish to move on, or decline to respond. The interviewee is also allowed to say that they don't know, do not understand the question, or express uncertainty. Responses can be very short, as long as they have some connection with the question. The interviewee's response might contain spelling and grammar mistakes. Here is the last part of the conversation.
 
@@ -417,6 +432,7 @@ INTERVIEW_PARAMETERS = {
         },
         "dag": {
             "model": "gpt-4o",
+            "model_gemini": "gemini-2.0-flash",
             "max_tokens": 1000
         }
     },

@@ -20,6 +20,29 @@ def index():
     return 'Running!'
 
 
+@app.route('/', methods=['POST'])
+@decorators.handle_500
+def dispatch():
+    """Dispatcher endpoint for Qualtrics integration.
+
+    Accepts the unified route/payload format used by the Qualtrics JS embed:
+        {"route": "next"|"transcribe"|"retrieve", "payload": {...}}
+
+    Set the Qualtrics embedded variable `interview_endpoint` to the root URL
+    of this server (e.g. https://your-coolify-domain.com/).
+    """
+    body = request.get_json(force=True)
+    route = body.get('route')
+    payload = body.get('payload', {})
+    if route == 'next':
+        return jsonify(logic.next_question(**payload))
+    elif route == 'transcribe':
+        return jsonify(logic.transcribe(**payload))
+    elif route == 'retrieve':
+        return jsonify(logic.retrieve_sessions(**payload))
+    return jsonify({'error': f"Unknown route: '{route}'"}), 400
+
+
 @app.route('/<interview_id>/<session_id>', methods=['GET'])
 @decorators.handle_500
 def landing(interview_id: str, session_id: str):

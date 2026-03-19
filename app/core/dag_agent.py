@@ -1,7 +1,6 @@
-import json
 import logging
 
-from openai import OpenAI
+from core.providers.base import BaseProvider
 
 
 DAG_SYSTEM_PROMPT = """You are an expert in cognitive mapping and causal reasoning for qualitative research.
@@ -28,13 +27,13 @@ Return ONLY valid JSON in this exact format, no other text:
 
 class DAGAgent:
     """
-    Agent that extracts a causal Directed Acyclic Graph (DAG) from an
-    interview transcript, capturing the interviewee's mental model about
-    a given topic.
+    Agent that extracts a causal DAG from an interview transcript,
+    capturing the interviewee's mental model about a given topic.
+    Works with any BaseProvider (OpenAI or Gemini).
     """
 
-    def __init__(self, client: OpenAI):
-        self.client = client
+    def __init__(self, provider: BaseProvider):
+        self.provider = provider
 
     def extract_dag(
         self,
@@ -47,28 +46,20 @@ class DAGAgent:
         Extract a DAG from the interview transcript for a given topic.
 
         Args:
-            topic: Description of the interview topic
-            history_text: Formatted interview transcript (Interviewer/Interviewee turns)
-            model: OpenAI model to use
-            max_tokens: Maximum tokens for the response
+            topic: description of the interview topic
+            history_text: formatted transcript (Interviewer/Interviewee turns)
+            model: model name for the active provider
+            max_tokens: maximum tokens for the response
 
         Returns:
             dict with 'nodes' and 'edges' lists, or empty dict on failure
         """
-        user_message = f"Topic: {topic}\n\nInterview transcript:\n{history_text}"
-
+        messages = [
+            {"role": "system", "content": DAG_SYSTEM_PROMPT},
+            {"role": "user", "content": f"Topic: {topic}\n\nInterview transcript:\n{history_text}"},
+        ]
         try:
-            response = self.client.chat.completions.create(
-                model=model,
-                messages=[
-                    {"role": "system", "content": DAG_SYSTEM_PROMPT},
-                    {"role": "user", "content": user_message},
-                ],
-                response_format={"type": "json_object"},
-                max_tokens=max_tokens,
-                temperature=0,
-            )
-            dag = json.loads(response.choices[0].message.content)
+            dag = self.provider.complete_json(messages, model, max_tokens, temperature=0)
             logging.info(
                 f"DAG extracted: {len(dag.get('nodes', []))} nodes, "
                 f"{len(dag.get('edges', []))} edges"

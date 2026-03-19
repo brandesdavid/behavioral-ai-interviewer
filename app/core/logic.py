@@ -1,22 +1,18 @@
 import logging
-import os
-from parameters import INTERVIEW_PARAMETERS, OPENAI_API_KEY
+from parameters import INTERVIEW_PARAMETERS
 from core.manager import InterviewManager
 from core.agent import LLMAgent
+from core.providers import get_provider
 
 
 def connect_to_database():
-    """ Instantiate specific backend database. """
-    if os.getenv("DATABASE") == "DYNAMODB":
-        # For AWS, leverage Dynamo database
-        from database.dynamo import DynamoDB
-        return DynamoDB(os.environ['DYNAMO_TABLE'])
+    """ Instantiate file-based database. """
     from database.file import FileWriter
     return FileWriter()
 
 
-agent = LLMAgent(OPENAI_API_KEY)
 db = connect_to_database()
+agent = LLMAgent(get_provider())
 
 
 def load_interview_session(session_id: str) -> dict:
