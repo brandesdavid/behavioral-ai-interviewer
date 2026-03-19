@@ -29,6 +29,8 @@ class InterviewManager(object):
             'terminated': False,                # whether termination signal been sent
             'summary': '',                      # running summary
             'topic_dags': [],                   # list of extracted DAGs per completed topic
+            'dag_awaiting_feedback': False,     # waiting for user to validate DAG
+            'dag_pending_question': None,       # transition question held until DAG feedback received
             'type': 'question',                 # question or answer
             'content': None                     # content
         }
@@ -122,15 +124,47 @@ class InterviewManager(object):
         """ Having probed within topic, simply increment question counter. """
         self.current_state["question_idx"] += 1
 
-    def add_topic_dag(self, dag: dict, topic: str):
+    def add_topic_dag(self, dag: dict, topic: str, svg: str = ''):
         """
         Store an extracted DAG for a completed topic.
         Creates a new list on each call so shallow copies in add_chat_to_session
         capture the correct snapshot.
         """
         updated = list(self.current_state.get('topic_dags', []))
-        updated.append({'topic': topic, 'dag': dag})
+        updated.append({
+            'topic': topic,
+            'dag': dag,
+            'svg': svg,
+            'accepted': None,
+            'correction': None,
+        })
         self.current_state['topic_dags'] = updated
+
+    def is_awaiting_dag_feedback(self) -> bool:
+        """True when we are waiting for the user to validate the last DAG."""
+        return bool(self.current_state.get('dag_awaiting_feedback', False))
+
+    def set_dag_pending(self, question: str):
+        """Hold a transition question until the user has validated the DAG."""
+        self.current_state['dag_awaiting_feedback'] = True
+        self.current_state['dag_pending_question'] = question
+
+    def consume_pending_question(self) -> str:
+        """Return and clear the pending transition question."""
+        q = self.current_state.get('dag_pending_question') or ''
+        self.current_state['dag_awaiting_feedback'] = False
+        self.current_state['dag_pending_question'] = None
+        return q
+
+    def resolve_dag_feedback(self, accepted: bool, correction: str = None):
+        """Attach the user's DAG validation response to the last topic_dag entry."""
+        dags = list(self.current_state.get('topic_dags', []))
+        if dags:
+            last = dict(dags[-1])
+            last['accepted'] = accepted
+            last['correction'] = correction
+            dags[-1] = last
+            self.current_state['topic_dags'] = dags
 
     def update_session(self):
         """ Update current state in remote database """ 
