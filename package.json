@@ -15,19 +15,19 @@
         "description": "Which AI company runs the interviews: type `openai`, `gemini` or `claude`. Then paste the matching API key below."
       },
       "OPENAI_API_KEY": {
-        "description": "Only needed if LLM_PROVIDER is `openai`. Create a key at [platform.openai.com/api-keys](https://platform.openai.com/api-keys). Otherwise type `none`."
+        "description": "If LLM_PROVIDER is `openai`, replace `none` with your key from [platform.openai.com/api-keys](https://platform.openai.com/api-keys). Otherwise leave `none`."
       },
       "GEMINI_API_KEY": {
-        "description": "Only needed if LLM_PROVIDER is `gemini`. Create a key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey). Otherwise type `none`."
+        "description": "If LLM_PROVIDER is `gemini`, replace `none` with your key from [aistudio.google.com/apikey](https://aistudio.google.com/apikey). Otherwise leave `none`."
       },
       "ANTHROPIC_API_KEY": {
-        "description": "Only needed if LLM_PROVIDER is `claude`. Create a key at [console.anthropic.com/settings/keys](https://console.anthropic.com/settings/keys). Otherwise type `none`."
+        "description": "If LLM_PROVIDER is `claude`, replace `none` with your key from [console.anthropic.com/settings/keys](https://console.anthropic.com/settings/keys). Otherwise leave `none`."
       },
       "SESSION_SECRET": {
-        "description": "Optional. Any long random text. Type `none` to let the app derive one from your API key."
+        "description": "Optional. Leave `none`, or replace it with any long random text."
       },
       "ADMIN_PASSWORD": {
-        "description": "Optional. A password for downloading a CSV backup of all interviews at `/export?password=...`. Type `none` to turn the download off."
+        "description": "Optional. Leave `none`, or choose a password to download a CSV backup of all interviews at `/export?password=...`."
       },
       "DB": {
         "description": "Optional backup copy of every interview. Keep the suggested name."

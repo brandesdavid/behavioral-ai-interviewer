@@ -1,12 +1,12 @@
 # Copy to .dev.vars for `npx wrangler dev`. .dev.vars is not committed.
-# Set the key that matches LLM_PROVIDER in wrangler.jsonc (the default is openai).
-# In the Cloudflare dashboard these are Worker secrets, not [vars].
+# The Deploy to Cloudflare form pre-fills its secret fields with these values.
+# "none" means "not used". Replace it only for the key that matches LLM_PROVIDER.
 
-OPENAI_API_KEY=sk-your-openai-key
-GEMINI_API_KEY=your-gemini-key
-ANTHROPIC_API_KEY=sk-ant-your-claude-key
+OPENAI_API_KEY=none
+GEMINI_API_KEY=none
+ANTHROPIC_API_KEY=none
 
-# Optional. If empty or "none", the session signature key is derived from the provider API key.
+# Optional. If "none", the session signature key is derived from the provider API key.
 SESSION_SECRET=none
 
 # Optional. Enables GET /export?password=... when the DB binding exists.
