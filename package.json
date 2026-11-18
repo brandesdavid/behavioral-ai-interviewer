@@ -1,0 +1,12 @@
+{
+  "name": "ai-interviewer",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev --ip 127.0.0.1 --port 8791",
+    "deploy": "wrangler deploy",
+    "test": "python3 -m unittest discover tests"
+  },
+  "devDependencies": {
+    "wrangler": "^4.164.0"
+  }
+}
