@@ -9,6 +9,7 @@ from urllib.parse import parse_qs, urlparse
 
 from workers import Response, WorkerEntrypoint
 
+from interviewer.errors import env_text
 from interviewer.service import CORS_HEADERS, Context, HttpResult, dispatch
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
@@ -37,7 +38,7 @@ class Default(WorkerEntrypoint):
             ctx = Context(
                 env=self.env,
                 db=getattr(self.env, "DB", None),
-                admin_password=getattr(self.env, "ADMIN_PASSWORD", None) or None,
+                admin_password=env_text(self.env, "ADMIN_PASSWORD"),
             )
             result = await dispatch(
                 request.method,

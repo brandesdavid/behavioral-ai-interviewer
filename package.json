@@ -8,5 +8,30 @@
   },
   "devDependencies": {
     "wrangler": "^4.164.0"
+  },
+  "cloudflare": {
+    "bindings": {
+      "LLM_PROVIDER": {
+        "description": "Which AI company runs the interviews: type `openai`, `gemini` or `claude`. Then paste the matching API key below."
+      },
+      "OPENAI_API_KEY": {
+        "description": "Only needed if LLM_PROVIDER is `openai`. Create a key at [platform.openai.com/api-keys](https://platform.openai.com/api-keys). Otherwise type `none`."
+      },
+      "GEMINI_API_KEY": {
+        "description": "Only needed if LLM_PROVIDER is `gemini`. Create a key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey). Otherwise type `none`."
+      },
+      "ANTHROPIC_API_KEY": {
+        "description": "Only needed if LLM_PROVIDER is `claude`. Create a key at [console.anthropic.com/settings/keys](https://console.anthropic.com/settings/keys). Otherwise type `none`."
+      },
+      "SESSION_SECRET": {
+        "description": "Optional. Any long random text. Type `none` to let the app derive one from your API key."
+      },
+      "ADMIN_PASSWORD": {
+        "description": "Optional. A password for downloading a CSV backup of all interviews at `/export?password=...`. Type `none` to turn the download off."
+      },
+      "DB": {
+        "description": "Optional backup copy of every interview. Keep the suggested name."
+      }
+    }
   }
 }

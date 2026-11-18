@@ -12,7 +12,7 @@ import re
 from secrets import token_hex
 
 from interviewer.config import DEFAULT_MODELS
-from interviewer.errors import ClientError
+from interviewer.errors import ClientError, env_text
 
 log = logging.getLogger(__name__)
 
@@ -289,11 +289,9 @@ class LLMProvider:
 
 def provider_from_env(env, fetch=None, backoff=0.25):
     """Build the provider selected by LLM_PROVIDER. Raises ProviderError if the key is missing."""
-    name = getattr(env, "LLM_PROVIDER", None) or "openai"
-    override = getattr(env, "LLM_MODEL", None) or None
-    if isinstance(override, str) and not override.strip():
-        override = None
-    tentative = str(name).strip().lower()
+    name = env_text(env, "LLM_PROVIDER") or "openai"
+    override = env_text(env, "LLM_MODEL")
+    tentative = name.lower()
     env_name = KEY_ENV.get(tentative)
-    key = getattr(env, env_name, None) if env_name else None
+    key = env_text(env, env_name) if env_name else None
     return LLMProvider(tentative, key, fetch=fetch, model_override=override, backoff=backoff)

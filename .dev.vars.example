@@ -6,8 +6,8 @@ OPENAI_API_KEY=sk-your-openai-key
 GEMINI_API_KEY=your-gemini-key
 ANTHROPIC_API_KEY=sk-ant-your-claude-key
 
-# Optional. If empty, the session signature key is derived from the provider API key.
-SESSION_SECRET=
+# Optional. If empty or "none", the session signature key is derived from the provider API key.
+SESSION_SECRET=none
 
 # Optional. Enables GET /export?password=... when the DB binding exists.
-ADMIN_PASSWORD=
+ADMIN_PASSWORD=none

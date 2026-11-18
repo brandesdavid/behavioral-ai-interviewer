@@ -9,7 +9,7 @@ import uuid
 from urllib.parse import unquote
 
 from interviewer.config import INTERVIEWS
-from interviewer.errors import ClientError
+from interviewer.errors import ClientError, env_text
 from interviewer.logic import next_question
 from interviewer.providers import ProviderError, provider_from_env
 from interviewer.state import SessionError, make_signing_key, secrets_equal, sign_session, verify_session
@@ -131,7 +131,7 @@ async def _ensure_llm(ctx):
     if ctx.signing_key is None:
         secret = None
         if ctx.env is not None:
-            secret = getattr(ctx.env, "SESSION_SECRET", None) or None
+            secret = env_text(ctx.env, "SESSION_SECRET")
         ctx.signing_key = make_signing_key(secret, ctx.provider.api_key)
 
 
@@ -191,7 +191,7 @@ async def run_export(query, ctx):
     """CSV of every stored turn. Hidden unless ADMIN_PASSWORD is set and a DB is bound."""
     admin = ctx.admin_password
     if ctx.env is not None and not admin:
-        admin = getattr(ctx.env, "ADMIN_PASSWORD", None) or None
+        admin = env_text(ctx.env, "ADMIN_PASSWORD")
     db = ctx.db
     if ctx.env is not None and db is None:
         db = getattr(ctx.env, "DB", None)

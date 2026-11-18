@@ -10,6 +10,7 @@ from interviewer.providers import (  # noqa: E402
     LLMProvider,
     ProviderError,
     parse_json_object,
+    provider_from_env,
 )
 
 
@@ -161,6 +162,27 @@ class ProviderTests(unittest.IsolatedAsyncioTestCase):
         with self.assertRaises(ProviderError) as caught:
             LLMProvider("openai", "")
         self.assertIn("OPENAI_API_KEY", str(caught.exception))
+
+
+class EnvTextTests(unittest.TestCase):
+    def test_none_and_blank_mean_unset(self):
+        from types import SimpleNamespace
+        from interviewer.errors import env_text
+
+        env = SimpleNamespace(A="none", B="  ", C=" NONE ", D=" key ")
+        self.assertIsNone(env_text(env, "A"))
+        self.assertIsNone(env_text(env, "B"))
+        self.assertIsNone(env_text(env, "C"))
+        self.assertIsNone(env_text(env, "MISSING"))
+        self.assertEqual(env_text(env, "D"), "key")
+
+    def test_provider_ignores_none_placeholders(self):
+        from types import SimpleNamespace
+
+        env = SimpleNamespace(LLM_PROVIDER="gemini", GEMINI_API_KEY="real", OPENAI_API_KEY="none", LLM_MODEL="none")
+        provider = provider_from_env(env)
+        self.assertEqual(provider.provider_name, "gemini")
+        self.assertIsNone(provider.model_override)
 
 
 if __name__ == "__main__":
