@@ -9,6 +9,8 @@
   "compatibility_flags": ["python_workers", "disable_python_external_sdk"],
   // Interview TOML is not Python, so it is not bundled unless a Data rule names it.
   "rules": [{ "type": "Data", "globs": ["**/*.toml"], "fallthrough": true }],
+  // Keeps worker logs in the dashboard (Observability tab). Free plan includes them.
+  "observability": { "enabled": true },
   // Change to "gemini" or "claude" and set the matching secret
   // (GEMINI_API_KEY or ANTHROPIC_API_KEY). Optional LLM_MODEL overrides every agent.
   "vars": {
