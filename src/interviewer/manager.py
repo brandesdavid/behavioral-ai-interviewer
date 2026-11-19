@@ -12,7 +12,7 @@ import logging
 class InterviewManager:
     """
     Class to manage the conversation history for an interview
-    between the user and the AI-interviewer.
+    between the user and the LLM interviewer.
 
     Args:
         session_id: (str) unique interview session key

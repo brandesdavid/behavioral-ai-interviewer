@@ -6,7 +6,7 @@
 
 - **Cloudflare**: im kostenlosen Tarif nichts. Er erlaubt 100.000 Anfragen pro Tag, jede Antwort ist eine Anfrage.
 - **GitHub**: nichts.
-- **KI-Anbieter**: Du zahlst nach Verbrauch. Als grobe Orientierung kostet ein 15-minütiges Interview mit Gemini Flash-Lite deutlich unter einem Cent und mit GPT-4o etwa 10 bis 30 Cent. Längere Interviews und die `[dag]`-Graphen kosten mehr. Setze beim Anbieter ein monatliches Ausgabenlimit ([Kapitel 1](1-was-du-brauchst.md)).
+- **LLM-Anbieter**: Du zahlst nach Verbrauch. Als grobe Orientierung kostet ein 15-minütiges Interview mit Gemini Flash-Lite deutlich unter einem Cent und mit GPT-4o etwa 10 bis 30 Cent. Längere Interviews und die `[dag]`-Graphen kosten mehr. Setze beim Anbieter ein monatliches Ausgabenlimit ([Kapitel 1](1-was-du-brauchst.md)).
 
 ## API-Schlüssel ändern oder erneuern
 
@@ -22,7 +22,7 @@ Die Änderung gilt nach wenigen Sekunden. Geheimnisse bleiben erhalten, wenn du 
 
 Steht `SESSION_SECRET` auf `none`, beendet ein neuer API-Schlüssel auch die Interviews, die gerade laufen. Diese Personen müssen das Interview neu beginnen. Wechsle Schlüssel also, wenn niemand die Umfrage ausfüllt, oder setze `SESSION_SECRET` auf einen beliebigen langen Zufallstext.
 
-## Zu einem anderen KI-Anbieter wechseln
+## Zu einem anderen LLM-Anbieter wechseln
 
 `LLM_PROVIDER` steht in der Datei `wrangler.jsonc` deines GitHub-Repositorys. Eine Änderung im Cloudflare-Dashboard würde beim nächsten Commit überschrieben.
 
@@ -34,10 +34,10 @@ Wenn deine Interviewdateien ein `model` setzen, ändere es auf ein Modell des ne
 
 ## Datenschutz
 
-- Antworten gehen vom Browser der Befragten an deinen Cloudflare-Worker und von dort an den KI-Anbieter. Gespeichert werden sie in Qualtrics und in deiner Cloudflare-Datenbank. Die Autoren dieses Projekts bekommen nichts.
-- Nenne den KI-Anbieter in deiner Einwilligungserklärung und im Ethikantrag.
+- Antworten gehen vom Browser der Befragten an deinen Cloudflare-Worker und von dort an den LLM-Anbieter. Gespeichert werden sie in Qualtrics und in deiner Cloudflare-Datenbank. Die Autoren dieses Projekts bekommen nichts.
+- Nenne den LLM-Anbieter in deiner Einwilligungserklärung und im Ethikantrag.
 - Bitte die Befragten, keine Namen oder anderen identifizierenden Angaben zu tippen.
-- Nutze beim KI-Anbieter ein bezahltes Konto. Kostenlose Kontingente, zum Beispiel bei Gemini, dürfen deine Daten zur Verbesserung der Produkte des Anbieters nutzen.
+- Nutze beim LLM-Anbieter ein bezahltes Konto. Kostenlose Kontingente, zum Beispiel bei Gemini, dürfen deine Daten zur Verbesserung der Produkte des Anbieters nutzen.
 - Um alle Sicherungsdaten zu löschen, lösche bei Cloudflare die D1-Datenbank `ai-interviewer`. Interviews laufen auch ohne sie; nur die Sicherung und `/export` fallen weg.
 
 ## Grenzen
@@ -49,8 +49,8 @@ Wenn deine Interviewdateien ein `model` setzen, ändere es auf ein Modell des ne
 
 ## Neue Versionen dieses Projekts übernehmen
 
-Dein Repository ist eine Kopie und ändert sich nicht von selbst. Für eine neuere Version kopierst du die geänderten Dateien aus [brandesdavid/behavioral-ai-interviewer](https://github.com/brandesdavid/behavioral-ai-interviewer) in dein Repository oder bittest jemanden mit Git-Erfahrung, sie zusammenzuführen. Behalte deine eigenen Dateien in `src/interviews/` und deine `wrangler.jsonc`.
+Dein Repository ist eine Kopie und ändert sich nicht von selbst. Für eine neuere Version kopierst du die geänderten Dateien aus [brandesdavid/llm-behavioral-interviewer](https://github.com/brandesdavid/llm-behavioral-interviewer) in dein Repository oder bittest jemanden mit Git-Erfahrung, sie zusammenzuführen. Behalte deine eigenen Dateien in `src/interviews/` und deine `wrangler.jsonc`.
 
 ## Immer noch nicht weiter?
 
-Öffne den Worker bei Cloudflare, Reiter **Observability**, und wiederhole den Schritt, der scheitert. Das Log zeigt den Fehler des Workers. Füge diesen Text bei, wenn du im [Issue-Tracker](https://github.com/brandesdavid/behavioral-ai-interviewer/issues) um Hilfe bittest.
+Öffne den Worker bei Cloudflare, Reiter **Observability**, und wiederhole den Schritt, der scheitert. Das Log zeigt den Fehler des Workers. Füge diesen Text bei, wenn du im [Issue-Tracker](https://github.com/brandesdavid/llm-behavioral-interviewer/issues) um Hilfe bittest.

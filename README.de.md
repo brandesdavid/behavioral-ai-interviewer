@@ -1,15 +1,15 @@
-# KI-Interviewer für Qualtrics
+# LLM Behavioral Interviewer für Qualtrics
 
 [English](README.md) · **Deutsch** · Stand: 18.11.2026
 
-Ein KI-Interviewer, der qualitative Interviews direkt in deiner Qualtrics-Umfrage führt. Er stellt eine Einstiegsfrage, fragt zu den Antworten nach, geht die von dir festgelegten Themen durch und kann die Ursache-Wirkungs-Vorstellungen der Befragten als Graph (DAG) zeichnen und bestätigen lassen.
+Ein Interviewer auf Basis großer Sprachmodelle (LLMs), der qualitative Interviews direkt in deiner Qualtrics-Umfrage führt. Er stellt eine Einstiegsfrage, fragt zu den Antworten nach, geht die von dir festgelegten Themen durch und kann die Ursache-Wirkungs-Vorstellungen der Befragten als Graph (DAG) zeichnen und bestätigen lassen.
 
 Gedacht für Forschende ohne Programmierkenntnisse:
 
 - **Kein Server.** Läuft im kostenlosen Tarif von Cloudflare.
 - **Kein Terminal.** Einrichtung mit einem Button, Interviews bearbeitest du auf github.com.
 - **Deine Daten bleiben bei dir.** Die Transkripte landen in deinen Qualtrics-Daten und in einer Sicherungsdatenbank in deinem eigenen Cloudflare-Konto.
-- **Freie Wahl der KI.** OpenAI, Google Gemini oder Anthropic Claude.
+- **Freie Wahl des LLM.** OpenAI, Google Gemini oder Anthropic Claude.
 
 ![Ein Interview in der Qualtrics-Vorschau: zwei Fragen und Antworten, danach der Ursache-Wirkungs-Graph zur Bestätigung](docs/images/qx-05-preview.png)
 
@@ -27,7 +27,7 @@ Die Bildschirmfotos zeigen die englische Oberfläche von Cloudflare und Qualtric
 | [6. Deine Daten](docs/de/6-daten.md) | Transkripte finden und exportieren. | |
 | [7. Hilfe](docs/de/7-hilfe.md) | Kosten, Datenschutz, Schlüssel wechseln, Probleme. | |
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/brandesdavid/behavioral-ai-interviewer/tree/cloudflare-worker)
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/brandesdavid/llm-behavioral-interviewer)
 
 Lies [Kapitel 1](docs/de/1-was-du-brauchst.md), bevor du klickst.
 

@@ -9,11 +9,11 @@ Du brauchst drei kostenlose Konten und einen kostenpflichtigen API-Schlüssel. P
 | [GitHub](https://github.com/signup) | Speichert deine Kopie des Codes und deine Interviewdateien. | Kostenlos |
 | [Cloudflare](https://dash.cloudflare.com/sign-up) | Stellt den Interviewer ins Internet. | Kostenloser Tarif reicht (100.000 Anfragen pro Tag) |
 | [Qualtrics](https://www.qualtrics.com/) | Deine Umfrage. Die meisten Hochschulen haben eine Lizenz. | Über deine Hochschule |
-| Ein KI-Anbieter | Schreibt die Interviewfragen. | Nach Verbrauch, von unter einem Cent bis etwa 30 Cent pro Interview |
+| Ein LLM-Anbieter | Schreibt die Interviewfragen. | Nach Verbrauch, von unter einem Cent bis etwa 30 Cent pro Interview |
 
-## Einen KI-Anbieter wählen und einen API-Schlüssel holen
+## Einen LLM-Anbieter wählen und einen API-Schlüssel holen
 
-Ein API-Schlüssel ist ein langes Passwort, mit dem der Interviewer das KI-Modell nutzen darf. Du brauchst nur **einen** davon. Folge der Anleitung des Anbieters:
+Ein API-Schlüssel ist ein langes Passwort, mit dem der Interviewer das Sprachmodell nutzen darf. Du brauchst nur **einen** davon. Folge der Anleitung des Anbieters:
 
 | Anbieter | Wert für `LLM_PROVIDER` | Anleitung | Schlüssel hier anlegen |
 |---|---|---|---|

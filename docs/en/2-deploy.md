@@ -6,7 +6,7 @@ One button copies the code into your GitHub account and starts it on Cloudflare.
 
 ## Step 1: Click the button
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/brandesdavid/behavioral-ai-interviewer/tree/cloudflare-worker)
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/brandesdavid/llm-behavioral-interviewer)
 
 Log in to Cloudflare. If you have more than one Cloudflare account, pick the one you want to use.
 
@@ -28,7 +28,7 @@ Optional: tick **Create private Git repository** if other people should not see 
 
 Leave **Project name** and the **D1 database** fields as they are. The database keeps a backup copy of every interview.
 
-## Step 3: Choose the AI provider
+## Step 3: Choose the LLM provider
 
 Scroll down to **LLM_PROVIDER**. Type `openai`, `gemini` or `claude`, matching the key you created in [chapter 1](1-what-you-need.md).
 

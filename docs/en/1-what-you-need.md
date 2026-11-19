@@ -9,11 +9,11 @@ You need three free accounts and one paid API key. Plan about 15 minutes.
 | [GitHub](https://github.com/signup) | Stores your copy of the code and your interview files. | Free |
 | [Cloudflare](https://dash.cloudflare.com/sign-up) | Runs the interviewer on the internet. | Free plan is enough (100,000 requests per day) |
 | [Qualtrics](https://www.qualtrics.com/) | Your survey. Most universities have a licence. | Through your university |
-| One AI provider | Writes the interview questions. | Pay per use, from under one cent to about 30 cents per interview |
+| One LLM provider | Writes the interview questions. | Pay per use, from under one cent to about 30 cents per interview |
 
-## Pick one AI provider and get an API key
+## Pick one LLM provider and get an API key
 
-An API key is a long password that lets the interviewer use the AI model. You only need **one** of these. Follow the provider's own guide:
+An API key is a long password that lets the interviewer use the language model. You only need **one** of these. Follow the provider's own guide:
 
 | Provider | Value for `LLM_PROVIDER` | Guide | Create the key here |
 |---|---|---|---|

@@ -1,15 +1,15 @@
-# AI Interviewer for Qualtrics
+# LLM Behavioral Interviewer for Qualtrics
 
 **English** · [Deutsch](README.de.md)
 
-An AI interviewer that runs qualitative interviews inside your Qualtrics survey. It asks an opening question, follows up on what the respondent says, moves through the topics you define, and can draw each respondent's cause-and-effect reasoning as a graph (a DAG) and ask them to confirm it.
+An interviewer based on large language models (LLMs) that runs qualitative interviews inside your Qualtrics survey. It asks an opening question, follows up on what the respondent says, moves through the topics you define, and can draw each respondent's cause-and-effect reasoning as a graph (a DAG) and ask them to confirm it.
 
 It is built for researchers without a programming background:
 
 - **No server.** It runs on Cloudflare's free plan.
 - **No terminal.** You set it up with one button and edit interviews on github.com.
 - **Your data stays with you.** Transcripts go into your Qualtrics data and a backup database in your own Cloudflare account.
-- **Choose your AI.** OpenAI, Google Gemini or Anthropic Claude.
+- **Choose your LLM.** OpenAI, Google Gemini or Anthropic Claude.
 
 ![An interview in the Qualtrics preview: two questions and answers, then the respondent's cause-and-effect graph to confirm](docs/images/qx-05-preview.png)
 
@@ -25,7 +25,7 @@ It is built for researchers without a programming background:
 | [6. Your data](docs/en/6-data.md) | Find the transcripts and export them. | |
 | [7. Help](docs/en/7-help.md) | Costs, privacy, changing keys, problems. | |
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/brandesdavid/behavioral-ai-interviewer/tree/cloudflare-worker)
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/brandesdavid/llm-behavioral-interviewer)
 
 Read [chapter 1](docs/en/1-what-you-need.md) before you click.
 

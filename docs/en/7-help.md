@@ -6,7 +6,7 @@
 
 - **Cloudflare**: nothing on the free plan. It allows 100,000 requests per day; each answer is one request.
 - **GitHub**: nothing.
-- **AI provider**: you pay per use. As a rough guide, a 15-minute interview costs well under one cent with Gemini Flash-Lite and around 10 to 30 cents with GPT-4o. Longer interviews and the `[dag]` graphs cost more. Set a monthly spending limit with the provider ([chapter 1](1-what-you-need.md)).
+- **LLM provider**: you pay per use. As a rough guide, a 15-minute interview costs well under one cent with Gemini Flash-Lite and around 10 to 30 cents with GPT-4o. Longer interviews and the `[dag]` graphs cost more. Set a monthly spending limit with the provider ([chapter 1](1-what-you-need.md)).
 
 ## Change or rotate an API key
 
@@ -22,7 +22,7 @@ The change is live after a few seconds. Secrets stay when you later change inter
 
 If `SESSION_SECRET` is `none`, changing the API key also ends interviews that are running at that moment. Those respondents have to start the interview again. Change keys when nobody is taking the survey, or set `SESSION_SECRET` to any long random text.
 
-## Switch to a different AI provider
+## Switch to a different LLM provider
 
 `LLM_PROVIDER` lives in the file `wrangler.jsonc` of your GitHub repository. A change in the Cloudflare dashboard would be overwritten by the next commit.
 
@@ -34,10 +34,10 @@ If your interview files set a `model`, change it to a model of the new provider 
 
 ## Privacy
 
-- Answers go from the respondent's browser to your Cloudflare worker, then to the AI provider. They are stored in Qualtrics and in your Cloudflare database. Nothing is sent to the authors of this project.
-- Mention the AI provider in your consent form and your ethics application.
+- Answers go from the respondent's browser to your Cloudflare worker, then to the LLM provider. They are stored in Qualtrics and in your Cloudflare database. Nothing is sent to the authors of this project.
+- Mention the LLM provider in your consent form and your ethics application.
 - Ask respondents not to type names or other identifying details.
-- Use a paid account with the AI provider. Free tiers, for example Gemini's, may use your data to improve the provider's products.
+- Use a paid account with the LLM provider. Free tiers, for example Gemini's, may use your data to improve the provider's products.
 - To delete all backup data, delete the D1 database `ai-interviewer` in Cloudflare. Interviews still run without it; only the backup and `/export` stop.
 
 ## Limits
@@ -49,8 +49,8 @@ If your interview files set a `model`, change it to a model of the new provider 
 
 ## Get updates from this project
 
-Your repository is a copy, so it does not change by itself. To take a newer version, copy the changed files from [brandesdavid/behavioral-ai-interviewer](https://github.com/brandesdavid/behavioral-ai-interviewer) into your repository, or ask someone familiar with Git to merge them. Keep your own files in `src/interviews/` and your `wrangler.jsonc`.
+Your repository is a copy, so it does not change by itself. To take a newer version, copy the changed files from [brandesdavid/llm-behavioral-interviewer](https://github.com/brandesdavid/llm-behavioral-interviewer) into your repository, or ask someone familiar with Git to merge them. Keep your own files in `src/interviews/` and your `wrangler.jsonc`.
 
 ## Still stuck?
 
-Open the worker in Cloudflare, tab **Observability**, and repeat the failing step. The log shows the error the worker hit. Include that text when you ask for help in the [issue tracker](https://github.com/brandesdavid/behavioral-ai-interviewer/issues).
+Open the worker in Cloudflare, tab **Observability**, and repeat the failing step. The log shows the error the worker hit. Include that text when you ask for help in the [issue tracker](https://github.com/brandesdavid/llm-behavioral-interviewer/issues).

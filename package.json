@@ -12,7 +12,7 @@
   "cloudflare": {
     "bindings": {
       "LLM_PROVIDER": {
-        "description": "Which AI company runs the interviews: type `openai`, `gemini` or `claude`. Then put that company's API key into the matching field above."
+        "description": "Which LLM provider runs the interviews: type `openai`, `gemini` or `claude`. Then put that company's API key into the matching field above."
       },
       "OPENAI_API_KEY": {
         "description": "If LLM_PROVIDER is `openai`, replace `none` with your key from [platform.openai.com/api-keys](https://platform.openai.com/api-keys). Otherwise leave `none`."
