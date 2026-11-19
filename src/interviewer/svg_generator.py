@@ -49,14 +49,14 @@ def dag_to_svg(dag: dict) -> str:
     for n in nodes:
         by_level.setdefault(levels[n['id']], []).append(n)
 
-    # Layout constants
+    # Layout constants. Levels run top to bottom so the graph fits a narrow chat column.
     NODE_W, NODE_H = 155, 46
-    H_GAP, V_GAP   = 52, 18
+    H_GAP, V_GAP   = 18, 46
     PAD             = 22
 
     max_per_level = max(len(v) for v in by_level.values())
-    canvas_w = (max_level + 1) * (NODE_W + H_GAP) - H_GAP + 2 * PAD
-    canvas_h = max_per_level * (NODE_H + V_GAP) - V_GAP + 2 * PAD
+    canvas_w = max_per_level * (NODE_W + H_GAP) - H_GAP + 2 * PAD
+    canvas_h = (max_level + 1) * (NODE_H + V_GAP) - V_GAP + 2 * PAD
     canvas_w = max(canvas_w, 300)
     canvas_h = max(canvas_h, 80)
 
@@ -64,16 +64,17 @@ def dag_to_svg(dag: dict) -> str:
     pos: dict = {}
     for lvl in range(max_level + 1):
         level_nodes = by_level.get(lvl, [])
-        total_h = len(level_nodes) * (NODE_H + V_GAP) - V_GAP
-        start_y = (canvas_h - total_h) / 2
-        cx = PAD + lvl * (NODE_W + H_GAP) + NODE_W / 2
+        total_w = len(level_nodes) * (NODE_W + H_GAP) - H_GAP
+        start_x = (canvas_w - total_w) / 2
+        cy = PAD + lvl * (NODE_H + V_GAP) + NODE_H / 2
         for i, n in enumerate(level_nodes):
-            cy = start_y + i * (NODE_H + V_GAP) + NODE_H / 2
+            cx = start_x + i * (NODE_W + H_GAP) + NODE_W / 2
             pos[n['id']] = (cx, cy)
 
+    # The viewBox lets the browser shrink a wide graph to the chat width instead of scrolling.
     parts = [
-        f'<svg width="{int(canvas_w)}" height="{int(canvas_h)}" '
-        f'xmlns="http://www.w3.org/2000/svg" style="font-family:sans-serif;">',
+        f'<svg width="{int(canvas_w)}" height="{int(canvas_h)}" viewBox="0 0 {int(canvas_w)} {int(canvas_h)}" '
+        f'xmlns="http://www.w3.org/2000/svg" style="font-family:sans-serif;max-width:100%;height:auto;">',
         '<defs>',
         '<marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" '
         'markerWidth="5" markerHeight="5" orient="auto">',
@@ -82,24 +83,25 @@ def dag_to_svg(dag: dict) -> str:
         '</defs>',
     ]
 
-    # Edges (drawn behind nodes)
+    # Edges (drawn behind nodes), from the bottom of the source to the top of the target
     for e in edges:
         s, t = e.get('source'), e.get('target')
         if s not in pos or t not in pos:
             continue
         sx, sy = pos[s]
         tx, ty = pos[t]
-        x1, y1 = sx + NODE_W / 2, sy
-        x2, y2 = tx - NODE_W / 2, ty
-        dx = (x2 - x1) * 0.55
-        d = f"M{x1:.1f},{y1:.1f} C{x1+dx:.1f},{y1:.1f} {x2-dx:.1f},{y2:.1f} {x2:.1f},{y2:.1f}"
+        x1, y1 = sx, sy + NODE_H / 2
+        x2, y2 = tx, ty - NODE_H / 2
+        dy = (y2 - y1) * 0.55
+        d = f"M{x1:.1f},{y1:.1f} C{x1:.1f},{y1+dy:.1f} {x2:.1f},{y2-dy:.1f} {x2:.1f},{y2:.1f}"
         parts.append(f'<path d="{d}" fill="none" stroke="#4a6fa5" '
                      f'stroke-width="1.5" marker-end="url(#arr)"/>')
         label = e.get('label', '').strip()
         if label:
-            mx, my = (x1 + x2) / 2, (y1 + y2) / 2 - 6
+            mx, my = (x1 + x2) / 2, (y1 + y2) / 2 + 4
             parts.append(f'<text x="{mx:.1f}" y="{my:.1f}" text-anchor="middle" '
-                         f'font-size="10" fill="#6b7fa8">{_esc(label)}</text>')
+                         f'font-size="10" fill="#6b7fa8" stroke="#f8faff" stroke-width="3" '
+                         f'paint-order="stroke">{_esc(label)}</text>')
 
     # Nodes
     for n in nodes:

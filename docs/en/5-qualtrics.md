@@ -44,7 +44,9 @@ Leave all other fields in the green box as they are. The interviewer writes its 
 
 Click **Preview** at the top of the editor. Answer the first question.
 
-![Qualtrics preview with a follow-up question](../images/qx-05-preview.png)
+The picture shows the example `HOMELESS_BERLIN`. After the last question of a topic, the interviewer draws what the respondent said as a cause-and-effect graph and asks whether it is right. With **No**, the respondent can type a correction. Interviews without `[dag]`, like `STOCK_MARKET`, go straight to the next question.
+
+![Qualtrics preview: two answers, then the graph with Yes and No](../images/qx-05-preview.png)
 
 ## Step 5: Add your own questions and publish
 

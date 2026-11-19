@@ -11,7 +11,7 @@ Gedacht für Forschende ohne Programmierkenntnisse:
 - **Deine Daten bleiben bei dir.** Die Transkripte landen in deinen Qualtrics-Daten und in einer Sicherungsdatenbank in deinem eigenen Cloudflare-Konto.
 - **Freie Wahl der KI.** OpenAI, Google Gemini oder Anthropic Claude.
 
-![Ein Interview in der Qualtrics-Vorschau](docs/images/qx-05-preview.png)
+![Ein Interview in der Qualtrics-Vorschau: zwei Fragen und Antworten, danach der Ursache-Wirkungs-Graph zur Bestätigung](docs/images/qx-05-preview.png)
 
 Die Bildschirmfotos zeigen die englische Oberfläche von Cloudflare und Qualtrics. Die Schaltflächen sind in der Anleitung so benannt, wie sie dort heißen.
 

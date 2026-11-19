@@ -44,7 +44,9 @@ Lass alle anderen Felder im grünen Kasten unverändert. Der Interviewer schreib
 
 Klicke oben im Editor auf **Preview** und beantworte die erste Frage.
 
-![Qualtrics-Vorschau mit einer Nachfrage](../images/qx-05-preview.png)
+Das Bild zeigt das Beispiel `HOMELESS_BERLIN`. Nach der letzten Frage eines Themas zeichnet der Interviewer das Gesagte als Ursache-Wirkungs-Graph und fragt, ob er stimmt. Mit **No** kann die Person eine Korrektur eintippen. Interviews ohne `[dag]`, etwa `STOCK_MARKET`, gehen direkt mit der nächsten Frage weiter.
+
+![Qualtrics-Vorschau: zwei Antworten, danach der Graph mit Yes und No](../images/qx-05-preview.png)
 
 ## Schritt 5: Eigene Fragen ergänzen und veröffentlichen
 

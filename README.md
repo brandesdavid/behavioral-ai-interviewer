@@ -11,7 +11,7 @@ It is built for researchers without a programming background:
 - **Your data stays with you.** Transcripts go into your Qualtrics data and a backup database in your own Cloudflare account.
 - **Choose your AI.** OpenAI, Google Gemini or Anthropic Claude.
 
-![An interview running in the Qualtrics preview](docs/images/qx-05-preview.png)
+![An interview in the Qualtrics preview: two questions and answers, then the respondent's cause-and-effect graph to confirm](docs/images/qx-05-preview.png)
 
 ## Set it up in about 30 minutes
 
